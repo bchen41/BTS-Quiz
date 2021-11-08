@@ -4,14 +4,11 @@ var timerEl = document.getElementById("countdown");
 var isCorrect = document.getElementById("correct-wrong");
 var startButton = document.getElementById("start-button");
 var viewScores = document.getElementById("view-scores");
-
 var answerButtons = document.querySelectorAll("li > button");
-
 var answerContainer = document.getElementById("answer-choices");
 
 
-
-
+var questionIdx = 0;
 
 var scoreCounter = 0;
 var timeLeft;
@@ -29,10 +26,10 @@ for (var i = 0; i < displayAnswerContainer.length; i++) {
     displayAnswerContainer[i].setAttribute("style", "display: none");
 }
 
-function init() {
-    getWins();
-    getlosses();
-}
+// function init() {
+//     getWins();
+//     getlosses();
+// }
 
 
 startButton.addEventListener("click", startQuiz);
@@ -52,10 +49,22 @@ function displayQuestions() {
         for (var i = 0; i < displayAnswerContainer.length; i++) {
         displayAnswerContainer[i].removeAttribute("style", "display: none");
     }
-    
 }
 
 var listOfQuestions = [youngestMember, oldestMember, incorrectSong, howManyMembers];
+
+
+answerContainer.addEventListener("click", function(event) {
+    var element = event.target;
+
+    if (element.matches("button")) {
+        if (questionIdx >= listOfQuestions.length) {
+            questionIdx = 1;
+        }
+        listOfQuestions[questionIdx]();
+        questionIdx++;
+    };
+});
 
 function youngestMember() {
     introQuestions.textContent = "Who is the youngest member?";
@@ -64,15 +73,14 @@ function youngestMember() {
         answerButtons[i].textContent = answers[i];
     }
 
-    answerContainer.addEventListener("click", function(event) {
-        var element = event.target;
+    // answerContainer.addEventListener("click", function(event) {
+    //     var element = event.target;
     
-        if (element.matches("button")) {
-          listOfQuestions[1]();
-        };
-    });
+    //     if (element.matches("button")) {
+    //       next();
+    //     };
+    // });
 }
-
 
 function oldestMember() {
     introQuestions.textContent = "Who is the oldest member?";
@@ -81,13 +89,14 @@ function oldestMember() {
         answerButtons[i].textContent = answers[i];
     }
 
-    answerContainer.addEventListener("click", function(event) {
-        var element = event.target;
+    // answerContainer.addEventListener("click", function(event) {
+    //     var element = event.target;
     
-        if (element.matches("button")) {
-          listOfQuestions[2]();
-        };
-    });
+    //     if (element.matches("button")) {
+    //       listOfQuestions[questionIdx]();
+                // questionIdx++
+    //     };
+    // });
 }
 
 function incorrectSong() {
@@ -97,13 +106,13 @@ function incorrectSong() {
         answerButtons[i].textContent = answers[i];
     }
 
-    answerContainer.addEventListener("click", function(event) {
-        var element = event.target;
+    // answerContainer.addEventListener("click", function(event) {
+    //     var element = event.target;
     
-        if (element.matches("button")) {
-          listOfQuestions[3]();
-        };
-    });    
+    //     if (element.matches("button")) {
+    //       listOfQuestions[3]();
+    //     };
+    // });    
 }
 
 function howManyMembers() {
@@ -125,10 +134,10 @@ function countdown() {
         timerEl.textContent = "Time: " + timeLeft;
         timeLeft--;
         if (timeLeft >= 0) {
-            if (isWin && timeLeft > 0) {
-                clearInterval(timeInterval);
-                correctAnswer();
-            }
+            // if (isWin && timeLeft > 0) {
+            //     clearInterval(timeInterval);
+            //     correctAnswer();
+            // }
         }
         if (timeLeft === 0) {
             clearInterval(timeInterval);
