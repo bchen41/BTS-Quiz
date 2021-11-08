@@ -4,11 +4,12 @@ var timerEl = document.getElementById("countdown");
 var isCorrect = document.getElementById("correct-wrong");
 var startButton = document.getElementById("start-button");
 var viewScores = document.getElementById("view-scores");
-var answerOne = document.getElementById("one");
-var answerTwo = document.getElementById("two");
-var answerThree = document.getElementById("three");
-var answerFour = document.getElementById("four");
+
+var answerButtons = document.querySelectorAll("li > button");
+
 var answerContainer = document.getElementById("answer-choices");
+
+
 
 
 
@@ -23,9 +24,9 @@ startButton.textContent = "Start Quiz";
 
 
 // Hides answer choices on initial page
-var displayChoices = document.querySelectorAll("#answer-choices > li");
-for (var i = 0; i < displayChoices.length; i++) {
-    displayChoices[i].setAttribute("style", "display: none");
+var displayAnswerContainer = document.querySelectorAll("#answer-choices > li");
+for (var i = 0; i < displayAnswerContainer.length; i++) {
+    displayAnswerContainer[i].setAttribute("style", "display: none");
 }
 
 function init() {
@@ -47,9 +48,9 @@ function startQuiz() {
 function displayQuestions() {
     introText.textContent = "";
     listOfQuestions[0]();
-    var displayChoices = document.querySelectorAll("#answer-choices > li");
-        for (var i = 0; i < displayChoices.length; i++) {
-        displayChoices[i].removeAttribute("style", "display: none");
+    var displayAnswerContainer = document.querySelectorAll("#answer-choices > li");
+        for (var i = 0; i < displayAnswerContainer.length; i++) {
+        displayAnswerContainer[i].removeAttribute("style", "display: none");
     }
     
 }
@@ -59,10 +60,9 @@ var listOfQuestions = [youngestMember, oldestMember, incorrectSong, howManyMembe
 function youngestMember() {
     introQuestions.textContent = "Who is the youngest member?";
     var answers = ["Jin", "RM", "JK", "JM"];
-    answerOne.textContent = answers[0];
-    answerTwo.textContent = answers[1];
-    answerThree.textContent = answers[2];
-    answerFour.textContent = answers[3];
+    for (var i = 0; i < answers.length; i++) {
+        answerButtons[i].textContent = answers[i];
+    }
 
     answerContainer.addEventListener("click", function(event) {
         var element = event.target;
@@ -77,10 +77,9 @@ function youngestMember() {
 function oldestMember() {
     introQuestions.textContent = "Who is the oldest member?";
     var answers = ["V", "J-Hope", "Suga", "Jin"];
-    answerOne.textContent = answers[0];
-    answerTwo.textContent = answers[1];
-    answerThree.textContent = answers[2];
-    answerFour.textContent = answers[3];
+    for (var i = 0; i < answers.length; i++) {
+        answerButtons[i].textContent = answers[i];
+    }
 
     answerContainer.addEventListener("click", function(event) {
         var element = event.target;
@@ -94,10 +93,9 @@ function oldestMember() {
 function incorrectSong() {
     introQuestions.textContent = "Which song is not by BTS?";
     var answers = ["I NEED U", "Danger", "Euphoria", "Peter Pan"];
-    answerOne.textContent = answers[0];
-    answerTwo.textContent = answers[1];
-    answerThree.textContent = answers[2];
-    answerFour.textContent = answers[3];
+    for (var i = 0; i < answers.length; i++) {
+        answerButtons[i].textContent = answers[i];
+    }
 
     answerContainer.addEventListener("click", function(event) {
         var element = event.target;
@@ -111,10 +109,9 @@ function incorrectSong() {
 function howManyMembers() {
     introQuestions.textContent = "How many members are there total?";
     var answers = ["7", "8", "12", "5"];
-    answerOne.textContent = answers[0];
-    answerTwo.textContent = answers[1];
-    answerThree.textContent = answers[2];
-    answerFour.textContent = answers[3];
+    for (var i = 0; i < answers.length; i++) {
+        answerButtons[i].textContent = answers[i];
+    }
 }
 
 listOfQuestions.forEach(function (e) {
