@@ -8,11 +8,11 @@ var answerButtons = document.querySelectorAll("li > button");
 var answerContainer = document.getElementById("answer-choices");
 
 
-var questionIdx = 0;
-
 var scoreCounter = 0;
 var timeLeft;
 var timeInterval;
+
+
 
 // Display initial page
 introQuestions.textContent = "BTS Quiz Challenge!";
@@ -51,20 +51,29 @@ function displayQuestions() {
     }
 }
 
-var listOfQuestions = [youngestMember, oldestMember, incorrectSong, howManyMembers];
+// For event listener after clicking answer button to display next question (calling next function)
+var i = 0;
+var currentQuestion;
 
+function navigate(direction) {
+    i = i + direction;
+    
+    if (i >= listOfQuestions.length -1) {
+        index = 0;
+    }
+    currentQuestion = listOfQuestions[i]();
+}
 
 answerContainer.addEventListener("click", function(event) {
     var element = event.target;
-
-    if (element.matches("button")) {
-        if (questionIdx >= listOfQuestions.length) {
-            questionIdx = 1;
-        }
-        listOfQuestions[questionIdx]();
-        questionIdx++;
+    if (element.matches("button")){
+        navigate(1);
     };
 });
+
+navigate(0);
+
+var listOfQuestions = [youngestMember, oldestMember, incorrectSong, howManyMembers];
 
 function youngestMember() {
     introQuestions.textContent = "Who is the youngest member?";
@@ -72,14 +81,6 @@ function youngestMember() {
     for (var i = 0; i < answers.length; i++) {
         answerButtons[i].textContent = answers[i];
     }
-
-    // answerContainer.addEventListener("click", function(event) {
-    //     var element = event.target;
-    
-    //     if (element.matches("button")) {
-    //       next();
-    //     };
-    // });
 }
 
 function oldestMember() {
@@ -88,15 +89,6 @@ function oldestMember() {
     for (var i = 0; i < answers.length; i++) {
         answerButtons[i].textContent = answers[i];
     }
-
-    // answerContainer.addEventListener("click", function(event) {
-    //     var element = event.target;
-    
-    //     if (element.matches("button")) {
-    //       listOfQuestions[questionIdx]();
-                // questionIdx++
-    //     };
-    // });
 }
 
 function incorrectSong() {
@@ -104,15 +96,7 @@ function incorrectSong() {
     var answers = ["I NEED U", "Danger", "Euphoria", "Peter Pan"];
     for (var i = 0; i < answers.length; i++) {
         answerButtons[i].textContent = answers[i];
-    }
-
-    // answerContainer.addEventListener("click", function(event) {
-    //     var element = event.target;
-    
-    //     if (element.matches("button")) {
-    //       listOfQuestions[3]();
-    //     };
-    // });    
+    } 
 }
 
 function howManyMembers() {
@@ -123,10 +107,6 @@ function howManyMembers() {
     }
 }
 
-listOfQuestions.forEach(function (e) {
-    console.log(e);
-});
-
 function countdown() {
 
     timeInterval = setInterval(function() {
@@ -134,10 +114,10 @@ function countdown() {
         timerEl.textContent = "Time: " + timeLeft;
         timeLeft--;
         if (timeLeft >= 0) {
-            // if (isWin && timeLeft > 0) {
-            //     clearInterval(timeInterval);
-            //     correctAnswer();
-            // }
+            if (isWin && timeLeft > 0) {
+                clearInterval(timeInterval);
+                correctAnswer();
+            }
         }
         if (timeLeft === 0) {
             clearInterval(timeInterval);
