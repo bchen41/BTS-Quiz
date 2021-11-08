@@ -1,0 +1,18 @@
+header nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+}
+
+section {
+  text-align: center;
+  list-style-position: inside;
+  padding: 150px;
+}
+
+button {
+  margin: 20px;
+}
