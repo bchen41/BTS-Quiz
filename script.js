@@ -8,11 +8,8 @@ var answerButtons = document.querySelectorAll("li > button");
 var answerContainer = document.getElementById("answer-choices");
 
 
-var scoreCounter = 0;
 var timeLeft;
 var timeInterval;
-
-
 
 // Display initial page
 introQuestions.textContent = "BTS Quiz Challenge!";
@@ -36,10 +33,9 @@ startButton.addEventListener("click", startQuiz);
 function startQuiz() {
     startButton.disabled = true;
     startButton.style.display = "none";
-    timeLeft = 3
+    timeLeft = 60;
     countdown();
     displayQuestions(); 
-    
 }
 
 function displayQuestions() {
@@ -52,16 +48,16 @@ function displayQuestions() {
 }
 
 // For event listener after clicking answer button to display next question (calling next function)
-var i = 0;
+var questionIndex = 0;
 var currentQuestion;
 
 function navigate(direction) {
-    i = i + direction;
+    questionIndex = questionIndex + direction;
     
-    if (i >= listOfQuestions.length -1) {
+    if (questionIndex >= listOfQuestions.length -1) {
         index = 0;
     }
-    currentQuestion = listOfQuestions[i]();
+    currentQuestion = listOfQuestions[questionIndex]();
 }
 
 answerContainer.addEventListener("click", function(event) {
@@ -71,8 +67,6 @@ answerContainer.addEventListener("click", function(event) {
     };
 });
 
-navigate(0);
-
 var listOfQuestions = [youngestMember, oldestMember, incorrectSong, howManyMembers];
 
 function youngestMember() {
@@ -81,6 +75,7 @@ function youngestMember() {
     for (var i = 0; i < answers.length; i++) {
         answerButtons[i].textContent = answers[i];
     }
+    clickedAnswer("JK");
 }
 
 function oldestMember() {
@@ -88,15 +83,17 @@ function oldestMember() {
     var answers = ["V", "J-Hope", "Suga", "Jin"];
     for (var i = 0; i < answers.length; i++) {
         answerButtons[i].textContent = answers[i];
-    }
+    };
+    clickedAnswer("Jin");
 }
 
 function incorrectSong() {
     introQuestions.textContent = "Which song is not by BTS?";
-    var answers = ["I NEED U", "Danger", "Euphoria", "Peter Pan"];
+    var answers = ["I NEED U", "Peter Pan", "Euphoria", "Danger"];
     for (var i = 0; i < answers.length; i++) {
         answerButtons[i].textContent = answers[i];
-    } 
+    };
+    clickedAnswer("Peter Pan");
 }
 
 function howManyMembers() {
@@ -104,24 +101,76 @@ function howManyMembers() {
     var answers = ["7", "8", "12", "5"];
     for (var i = 0; i < answers.length; i++) {
         answerButtons[i].textContent = answers[i];
+    };
+    clickedAnswer("7");
+
+    for (var i = 0; i < answerButtons.length; i++) {
+        answerButtons[i].addEventListener("click", function(event) {
+            var element = event.target;
+            if (element.matches("button")){
+                displayDonePage();
+                
+            };
+        });
+    };
+}
+
+function displayDonePage() {
+    introQuestions.textContent = "All done!!!";
+    introText.textContent = "Your final score is: " + scoreCount;
+    timerEl.textContent = "Time: " + timeLeft;
+    clearInterval(timeInterval);
+    var displayAnswerContainer = document.querySelectorAll("#answer-choices > li");
+    for (var i = 0; i < displayAnswerContainer.length; i++) {
+        displayAnswerContainer[i].setAttribute("style", "display: none");
     }
 }
 
-function countdown() {
 
+function clickedAnswer(isCorrectAnswer) {
+    for (var i = 0; i < answerButtons.length; i++) {
+        answerButtons[i].addEventListener("click", function(event) {
+            var element = event.target;
+            console.log("one");
+            if (element.textContent === isCorrectAnswer){  
+                displayResult(true);
+                console.log("test1");
+            }
+            else {
+                displayResult(false);
+                console.log("test 2");
+            }
+        });
+    }
+}
+
+function displayResult(isCorrectAnswer) {
+    if (isCorrectAnswer){
+        isCorrect.textContent = "Correct!";
+        scoreCount++;
+    }
+    else {
+        isCorrect.textContent = "Incorrect!";
+        scoreCount--;
+    }
+    setTimeout(function() {
+        isCorrect.textContent = "";
+    }, 350);
+}
+
+function countdown() {
     timeInterval = setInterval(function() {
-        
         timerEl.textContent = "Time: " + timeLeft;
-        timeLeft--;
+            timeLeft--;
+
         if (timeLeft >= 0) {
             if (isWin && timeLeft > 0) {
+                timerEl.textContent = "Time: " + timeLeft;
                 clearInterval(timeInterval);
-                correctAnswer();
             }
         }
         if (timeLeft === 0) {
             clearInterval(timeInterval);
-            incorrectAnswer();
         }
         else {
             clearInterval(timeInterval);
@@ -129,56 +178,40 @@ function countdown() {
     }, 1000);
 }
 
+/**
+ * TO DO
+ */
+
 // The winGame function is called when the win condition is met
-function correctAnswer() {
-    isCorrect.textContent = "Correct!";
-    scoreCounter++;
-    setWins();
-}
+
+    // setWins();
 
 // The loseGame function is called when timer reaches 0
-function incorrectAnswer() {
-    isCorrect.textContent = "Incorrect!";
-    scoreCounter--;
-    setLosses();
-}
 
-// Updates win count on screen and sets win count to client storage
+    // setLosses();
+
+
+var scoreCount = localStorage.getItem("scoreCount");
+
+
+// sets win count to client storage
 function setWins() {
-    win.textContent = winCounter;
-    localStorage.setItem("scoreCount", winCounter);
-  }
-  
-  // Updates lose count on screen and sets lose count to client storage
-  function setLosses() {
-    lose.textContent = loseCounter;
-    localStorage.setItem("loseCount", loseCounter);
-  }
-
+    localStorage.setItem("scoreCount", scoreCount);
+}
 // These functions are used by init
 function getWins() {
     // Get stored value from client storage, if it exists
     var storedScores = localStorage.getItem("scoreCount");
     // If stored value doesn't exist, set counter to 0
     if (storedScores === null) {
-      scoreCounter = 0;
+      scoreCount = 0;
     } else {
       // If a value is retrieved from client storage set the winCounter to that value
-      scoreCounter = storedScores;
+      scoreCount = storedScores;
     }
     //Render win count to page
-    win.textContent = scoreCounter;
-  }
-  
-  function getlosses() {
-    var storedLosses = localStorage.getItem("loseCount");
-    if (storedLosses === null) {
-      loseCounter = 0;
-    } else {
-      loseCounter = storedLosses;
-    }
-    lose.textContent = loseCounter;
-  }
+    win.textContent = scoreCount;
+}
 
   // Bonus: Add reset button
 var resetButton = document.querySelector(".reset-button");
@@ -191,5 +224,3 @@ function resetGame() {
   setWins()
   setLosses()
 }
-// Attaches event listener to button
-// resetButton.addEventListener("click", resetGame);
