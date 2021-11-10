@@ -1,15 +1,24 @@
 // element selectors
-var introQuestions = document.querySelector(".intro-questions");
-var introText = document.getElementById("intro-text");
-var timerEl = document.getElementById("countdown");
-var isCorrect = document.getElementById("correct-wrong");
-var startButton = document.getElementById("start-button");
-var viewScores = document.getElementById("view-scores");
-var answerButtons = document.querySelectorAll("li > button");
+var startScreenEl = document.getElementById("start-screen");
+var questionsScreenEl = document.getElementById("questions-screen");
+var endScreenEl = document.getElementById("end-screen");
+var highscoreScreenEl = document.getElementById("highscore-screen");
+
+var questionsEl = document.querySelector(".questions");
 var answerContainer = document.getElementById("answer-choices");
-var enterInitials = document.querySelector(".hidden");
+var isCorrect = document.getElementById("correct-wrong");
+
+var timerEl = document.getElementById("time");
+
 var initialsEl = document.querySelector("#initials");
+var finalScore = document.getElementById("final-scores");
+var viewScores = document.getElementById("view-scores");
+
+var startButton = document.getElementById("start");
 var submitButton = document.querySelector("#submit");
+var answerButtons = document.querySelectorAll("li > button");
+var backButton = document.getElementById("go-back");
+var clearButton = document.getElementById("clear-score");
 
 // global states
 var timeLeft;
@@ -18,40 +27,82 @@ var scoreCount = 0;
 
 // event listeners
 startButton.addEventListener("click", startQuiz);
-
-// Display initial page
-introQuestions.textContent = "BTS Quiz Challenge!";
-introText.textContent =
-  "Try to answer the following BTS-related questions within the time limit. Keep in mind that incorrect answers will penalize your time and score!";
-startButton.textContent = "Start Quiz";
-
-// Hides answer choices on initial page
-var displayAnswerContainer = document.querySelectorAll("#answer-choices > li");
-for (var i = 0; i < displayAnswerContainer.length; i++) {
-  displayAnswerContainer[i].setAttribute("style", "display: none");
-}
-// Hides Initials Form
-enterInitials.setAttribute("style", "display: none");
+submitButton.addEventListener("click", displayHighscores);
+backButton.addEventListener("click", startOver);
 
 function startQuiz() {
-  startButton.style.display = "none";
+  startScreenEl.setAttribute("class", "hide");
   timeLeft = 10;
   countdown();
   displayQuestions();
 }
 
+function countdown() {
+  timeInterval = setInterval(function () {
+    timerEl.textContent = timeLeft;
+    timeLeft--;
+
+    if (timeLeft >= 0) {
+      if (isWin && timeLeft > 0) {
+        timerEl.textContent = timeLeft;
+        clearInterval(timeInterval);
+      }
+    }
+    if (timeLeft <= 0) {
+      timerEl.textContent = "0";
+      displayDonePage();
+      clearInterval(timeInterval);
+    } else {
+      clearInterval(timeInterval);
+    }
+  }, 1000);
+}
+
 function displayQuestions() {
-  introText.textContent = "";
+  questionsScreenEl.removeAttribute("class", "hide");
   var firstQuestion = listOfQuestions[0];
   firstQuestion();
-  var displayAnswerContainer = document.querySelectorAll(
-    "#answer-choices > li"
-  );
-  for (var i = 0; i < displayAnswerContainer.length; i++) {
-    displayAnswerContainer[i].removeAttribute("style", "display: none");
+}
+
+var listOfQuestions = [
+  youngestMember,
+  oldestMember,
+  incorrectSong,
+  howManyMembers,
+];
+var listOfCorrectAnswer = ["JK", "Jin", "Peter Pan", "7"];
+
+function youngestMember() {
+  questionsEl.textContent = "Who is the youngest member?";
+  var answers = ["Jin", "RM", "JK", "JM"];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
   }
 }
 
+function oldestMember() {
+  questionsEl.textContent = "Who is the oldest member?";
+  var answers = ["V", "J-Hope", "Suga", "Jin"];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
+  }
+}
+
+function incorrectSong() {
+  questionsEl.textContent = "Which song is not by BTS?";
+  var answers = ["I NEED U", "Peter Pan", "Euphoria", "Danger"];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
+  }
+}
+
+function howManyMembers() {
+  questionsEl.textContent = "How many members are there total?";
+  var answers = ["7", "8", "12", "5"];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
+  }
+}
 // For event listener after clicking answer button to display next question (calling next function)
 var questionIndex = 0;
 var currentQuestion;
@@ -60,10 +111,26 @@ function navigate(direction) {
   questionIndex = questionIndex + direction;
 
   if (questionIndex >= listOfQuestions.length) {
+    timerEl.textContent = timeLeft;
+    clearInterval(timeInterval);
     displayDonePage();
     return;
   }
   currentQuestion = listOfQuestions[questionIndex]();
+}
+
+function displayDonePage() {
+  questionsScreenEl.setAttribute("class", "hide");
+  endScreenEl.removeAttribute("class", "hide");
+  finalScore.textContent = scoreCount;
+}
+
+function displayHighscores() {
+  questionsScreenEl.setAttribute("class", "hide");
+  endScreenEl.setAttribute("class", "hide");
+  highscoreScreenEl.removeAttribute("class", "hide");
+  let initials = initialsEl.value.trim();
+  viewScores.textContent = initials + ": " + scoreCount;
 }
 
 answerContainer.addEventListener("click", function (event) {
@@ -90,94 +157,12 @@ answerContainer.addEventListener("click", function (event) {
     navigate(1);
     setTimeout(function () {
       isCorrect.textContent = "";
-    }, 500);
+    }, 750);
   }
 });
 
-var listOfQuestions = [
-  youngestMember,
-  oldestMember,
-  incorrectSong,
-  howManyMembers,
-];
-var listOfCorrectAnswer = ["JK", "Jin", "Peter Pan", "7"];
-
-function youngestMember() {
-  introQuestions.textContent = "Who is the youngest member?";
-  var answers = ["Jin", "RM", "JK", "JM"];
-  for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
-  }
-}
-
-function oldestMember() {
-  introQuestions.textContent = "Who is the oldest member?";
-  var answers = ["V", "J-Hope", "Suga", "Jin"];
-  for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
-  }
-}
-
-function incorrectSong() {
-  introQuestions.textContent = "Which song is not by BTS?";
-  var answers = ["I NEED U", "Peter Pan", "Euphoria", "Danger"];
-  for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
-  }
-}
-
-function howManyMembers() {
-  introQuestions.textContent = "How many members are there total?";
-  var answers = ["7", "8", "12", "5"];
-  for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
-  }
-}
-
-function displayDonePage() {
-  introQuestions.textContent = "All done!!!";
-  introText.textContent = "Your final score is: " + scoreCount;
-
-  enterInitials.removeAttribute("style", "display: none");
-  var displayAnswerContainer = document.querySelectorAll(
-    "#answer-choices > li"
-  );
-  for (var i = 0; i < displayAnswerContainer.length; i++) {
-    displayAnswerContainer[i].setAttribute("style", "display: none");
-  }
-}
-
-submitButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  enterInitials.setAttribute("style", "display: none");
-  displayHighscores();
-});
-
-function displayHighscores() {
-  let initials = initialsEl.value.trim();
-  introQuestions.textContent = "Highscores";
-  introText.textContent = initials + ": " + scoreCount;
-}
-
-function countdown() {
-  timeInterval = setInterval(function () {
-    timerEl.textContent = "Time: " + timeLeft;
-    timeLeft--;
-
-    if (timeLeft >= 0) {
-      if (isWin && timeLeft > 0) {
-        timerEl.textContent = "Time: " + timeLeft;
-        clearInterval(timeInterval);
-      }
-    }
-    if (timeLeft <= 0) {
-      timerEl.textContent = "Time: 0";
-      displayDonePage();
-      clearInterval(timeInterval);
-    } else {
-      clearInterval(timeInterval);
-    }
-  }, 1000);
+function startOver() {
+  location.reload();
 }
 
 /**
@@ -218,9 +203,7 @@ var resetButton = document.querySelector(".reset-button");
 
 function resetGame() {
   // Resets win and loss counts
-  winCounter = 0;
-  loseCounter = 0;
+  scoreCount = 0;
   // Renders win and loss counts and sets them into client storage
   setWins();
-  setLosses();
 }
