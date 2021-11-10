@@ -12,31 +12,50 @@
 <body>
     <header>
         <nav>
-            <a href="javascript:void(0)">View Highscores</a>
-            <span id="countdown">Time: 0</span>
+            <div class="scores"><a href="highscores.html">View Highscores</a></div>
+            <div class="countdown">Time: <span id="time"></span></div>
         </nav>
     </header>
 
-    <main>
-        <section>
-            <h1 class="card intro-questions"></h1>
-            <p id="intro-text"></p>
-            <form class="hidden">
-                <label for="initials">Enter your initials: </label><input type="text" id="initials" name="initials">
-                <input type="submit" value="Submit" id="submit">
-            </form>
-            <p id="view-scores"></p>
-            <button id="start-button"></button>
-            <ol id="answer-choices">
-                <li><button></button></li>
-                <li><button></button></li>
-                <li><button></button></li>
-                <li><button></button></li>
-            </ol>
-            <h2 id="correct-wrong"></h2>
-        </section>
 
-    </main>
+    <section class="start" id="start-screen">
+        <h1>BTS Quiz Challenge</h1>
+        <p>Try to answer the following BTS-related questions within the time limit. Keep in mind that incorrect
+            answers will
+            penalize your time and score!
+        </p>
+
+        <button id="start">Start Quiz</button>
+    </section>
+
+    <section class="hide" id="questions-screen">
+        <h1 class="questions"></h1>
+        <ol id="answer-choices">
+            <li><button></button></li>
+            <li><button></button></li>
+            <li><button></button></li>
+            <li><button></button></li>
+        </ol>
+        <h2 id="correct-wrong"></h2>
+    </section>
+
+    <section class="hide" id="end-screen">
+        <h2>All Done!</h2>
+        <p>Your final score is: <span id="final-scores"></span></p>
+        <p>
+            Enter your initials: <input type="text" id="initials" max="3">
+        </p>
+        <button id="submit">Submit</button>
+    </section>
+
+    <section class="hide" id="highscore-screen">
+        <h2>Highscores</h2>
+        <p id="view-scores"></p>
+        <button id="go-back">Go Back</button>
+        <button id="clear-scores">Clear Highscores</button>
+    </section>
+
+
     <script src="script.js"></script>
 </body>
 
