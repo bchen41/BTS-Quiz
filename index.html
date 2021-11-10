@@ -21,24 +21,21 @@
         <section>
             <h1 class="card intro-questions"></h1>
             <p id="intro-text"></p>
+            <form class="hidden">
+                <label for="initials">Enter your initials: </label><input type="text" id="initials" name="initials">
+                <input type="submit" value="Submit" id="submit">
+            </form>
+            <p id="view-scores"></p>
             <button id="start-button"></button>
             <ol id="answer-choices">
-                <li>
-                    <button></button>
-                </li>
-                <li>
-                    <button></button>
-                </li>
-                <li>
-                    <button></button>
-                </li>
-                <li>
-                    <button></button>
-                </li>
+                <li><button></button></li>
+                <li><button></button></li>
+                <li><button></button></li>
+                <li><button></button></li>
             </ol>
             <h2 id="correct-wrong"></h2>
-            <p id="view-scores"></p>
         </section>
+
     </main>
     <script src="script.js"></script>
 </body>
