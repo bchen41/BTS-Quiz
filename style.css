@@ -16,3 +16,7 @@ section {
 button {
   margin: 20px;
 }
+
+.hide {
+  display: none;
+}
