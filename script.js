@@ -262,4 +262,5 @@ function startOver() {
 function clearScore() {
   scoreCounter = 0;
   localStorage.clear();
+  alert("Scores have been cleared!");
 }
