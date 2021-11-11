@@ -2,7 +2,7 @@
 var startScreenEl = document.getElementById("start-screen");
 var questionsScreenEl = document.getElementById("questions-screen");
 var endScreenEl = document.getElementById("end-screen");
-var highscoreScreenEl = document.getElementById("highscore-screen");
+var highScoreScreenEl = document.getElementById("highscore-screen");
 
 var questionsEl = document.querySelector(".questions");
 var answerContainer = document.getElementById("answer-choices");
@@ -18,41 +18,42 @@ var startButton = document.getElementById("start");
 var submitButton = document.querySelector("#submit");
 var answerButtons = document.querySelectorAll("li > button");
 var backButton = document.getElementById("go-back");
-var clearButton = document.getElementById("clear-score");
+var clearButton = document.getElementById("clear-scores");
 
 // global states
 var timeLeft;
 var timeInterval;
-var scoreCount = 0;
+var scoreCounter = 0;
 
 // event listeners
 startButton.addEventListener("click", startQuiz);
 submitButton.addEventListener("click", displayHighscores);
 backButton.addEventListener("click", startOver);
+clearButton.addEventListener("click", clearScore);
+
+if (localStorage.getItem("scoreCount")) {
+  document
+    .querySelector("#view-highscore-screen a")
+    .setAttribute("href", "highscores.html");
+}
 
 function startQuiz() {
   startScreenEl.setAttribute("class", "hide");
-  timeLeft = 10;
+  timeLeft = 15 * 10;
   countdown();
   displayQuestions();
 }
 
 function countdown() {
+  timerEl.textContent = timeLeft;
+  timeLeft--;
   timeInterval = setInterval(function () {
     timerEl.textContent = timeLeft;
     timeLeft--;
 
-    if (timeLeft >= 0) {
-      if (isWin && timeLeft > 0) {
-        timerEl.textContent = timeLeft;
-        clearInterval(timeInterval);
-      }
-    }
     if (timeLeft <= 0) {
       timerEl.textContent = "0";
       displayDonePage();
-      clearInterval(timeInterval);
-    } else {
       clearInterval(timeInterval);
     }
   }, 1000);
@@ -69,8 +70,25 @@ var listOfQuestions = [
   oldestMember,
   incorrectSong,
   howManyMembers,
+  breedOfJKDog,
+  formerCompanyName,
+  debutYear,
+  rapperWho,
+  collabWho,
+  billionViews,
 ];
-var listOfCorrectAnswer = ["JK", "Jin", "Peter Pan", "7"];
+var listOfCorrectAnswer = [
+  "JK",
+  "Jin",
+  "Peter Pan",
+  "7",
+  "Doberman",
+  "Big Hit Entertainment",
+  "2013",
+  "Kim Namjoon",
+  "All of the above",
+  "DNA",
+];
 
 function youngestMember() {
   questionsEl.textContent = "Who is the youngest member?";
@@ -103,6 +121,62 @@ function howManyMembers() {
     answerButtons[i].textContent = answers[i];
   }
 }
+
+function breedOfJKDog() {
+  questionsEl.textContent = "What breed is JK's dog?";
+  var answers = ["Shih Tzu", "Toy Poodle", "America Eskimo", "Doberman"];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
+  }
+}
+
+function formerCompanyName() {
+  questionsEl.textContent = "What was the former name of BTS' company label?";
+  var answers = ["JYP", "Big Hit Entertainment", "HYBE", "SM"];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
+  }
+}
+
+function debutYear() {
+  questionsEl.textContent = "In what year did BTS debut?";
+  var answers = ["2013", "2011", "2015", "2008"];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
+  }
+}
+
+function rapperWho() {
+  questionsEl.textContent = "Who is a rapper out of the given choices?";
+  var answers = ["Kim Taehyung", "Jung Hoseok", "Kim Seokjin", "Kim Namjoon"];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
+  }
+}
+
+function collabWho() {
+  questionsEl.textContent =
+    "Which of the person(s)/group have BTS collabed with?";
+  var answers = [
+    "Megan Thee Stallion",
+    "Coldplay",
+    "Halsey",
+    "All of the above",
+  ];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
+  }
+}
+
+function billionViews() {
+  questionsEl.textContent =
+    "Which BTS music video reached 1 billion views first out of these choices?";
+  var answers = ["DNA", "Fake Love", "Boy With Luv", "Mic Drop"];
+  for (var i = 0; i < answers.length; i++) {
+    answerButtons[i].textContent = answers[i];
+  }
+}
+
 // For event listener after clicking answer button to display next question (calling next function)
 var questionIndex = 0;
 var currentQuestion;
@@ -119,20 +193,6 @@ function navigate(direction) {
   currentQuestion = listOfQuestions[questionIndex]();
 }
 
-function displayDonePage() {
-  questionsScreenEl.setAttribute("class", "hide");
-  endScreenEl.removeAttribute("class", "hide");
-  finalScore.textContent = scoreCount;
-}
-
-function displayHighscores() {
-  questionsScreenEl.setAttribute("class", "hide");
-  endScreenEl.setAttribute("class", "hide");
-  highscoreScreenEl.removeAttribute("class", "hide");
-  let initials = initialsEl.value.trim();
-  viewScores.textContent = initials + ": " + scoreCount;
-}
-
 answerContainer.addEventListener("click", function (event) {
   var element = event.target;
 
@@ -140,7 +200,7 @@ answerContainer.addEventListener("click", function (event) {
     if (element.textContent === listOfCorrectAnswer[questionIndex]) {
       // increase score
       isCorrect.textContent = "Correct!";
-      scoreCount++;
+      scoreCounter++;
     } else {
       // decrease score
       timeLeft -= 10;
@@ -148,10 +208,10 @@ answerContainer.addEventListener("click", function (event) {
         timeLeft = 0;
       }
       isCorrect.textContent = "Incorrect!";
-      if (scoreCount > 0) {
-        scoreCount--;
+      if (scoreCounter > 0) {
+        scoreCounter--;
       } else {
-        scoreCount = 0;
+        scoreCounter = 0;
       }
     }
     navigate(1);
@@ -161,49 +221,45 @@ answerContainer.addEventListener("click", function (event) {
   }
 });
 
+function displayDonePage() {
+  questionsScreenEl.setAttribute("class", "hide");
+  endScreenEl.removeAttribute("class", "hide");
+  finalScore.textContent = scoreCounter;
+}
+
+function setScores(newScore) {
+  const storedScore = localStorage.getItem("scoreCount");
+  if (storedScore === null) {
+    localStorage.setItem("scoreCount", JSON.stringify([newScore]));
+    var viewHighScoreLink = document.querySelector("#view-highscore-screen a");
+    viewHighScoreLink.setAttribute("href", "highscores.html");
+  } else {
+    const storedScoreArr = JSON.parse(storedScore);
+    storedScoreArr.push(newScore);
+    storedScoreArr.sort(function (a, b) {
+      const aNum = parseInt(a.split("-")[1].trim());
+      const bNum = parseInt(b.split("-")[1].trim());
+      return bNum - aNum;
+    });
+    localStorage.setItem("scoreCount", JSON.stringify(storedScoreArr));
+  }
+}
+
+function displayHighscores() {
+  questionsScreenEl.setAttribute("class", "hide");
+  endScreenEl.setAttribute("class", "hide");
+  highScoreScreenEl.removeAttribute("class", "hide");
+  let initials = initialsEl.value.trim();
+  viewScores.textContent = initials + " - " + scoreCounter;
+  const newScore = initials + " - " + scoreCounter;
+  setScores(newScore);
+}
+
 function startOver() {
   location.reload();
 }
 
-/**
- * TO DO
- */
-
-// The winGame function is called when the win condition is met
-
-// setWins();
-
-// The loseGame function is called when timer reaches 0
-
-// setLosses();
-
-var localHighScore = localStorage.getItem("scoreCount");
-
-// sets win count to client storage
-function setWins() {
-  localStorage.setItem("scoreCount", scoreCount);
-}
-// These functions are used by init
-function getWins() {
-  // Get stored value from client storage, if it exists
-  var storedScores = localStorage.getItem("scoreCount");
-  // If stored value doesn't exist, set counter to 0
-  if (storedScores === null) {
-    scoreCount = 0;
-  } else {
-    // If a value is retrieved from client storage set the winCounter to that value
-    scoreCount = storedScores;
-  }
-  //Render win count to page
-  win.textContent = scoreCount;
-}
-
-// Bonus: Add reset button
-var resetButton = document.querySelector(".reset-button");
-
-function resetGame() {
-  // Resets win and loss counts
-  scoreCount = 0;
-  // Renders win and loss counts and sets them into client storage
-  setWins();
+function clearScore() {
+  scoreCounter = 0;
+  localStorage.clear();
 }
