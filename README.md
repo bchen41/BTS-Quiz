@@ -18,7 +18,7 @@ Either after answering all the questions or when the timer reaches 0, the game i
 
 ## **Screenshot**
 
-<img src="bts-quiz.png" alt="Screenshot of BTS Quiz"/>
+<img src="./Assets/Images/bts-quiz.png" alt="Screenshot of BTS Quiz"/>
 
 ## **Github Page Link**
 
