@@ -1,0 +1,49 @@
+.bg-image {
+  background-size: cover;
+}
+
+h1 {
+  padding: 50px;
+}
+
+.highscore-list {
+  margin-top: 25px;
+}
+
+li {
+  padding: 2px 0;
+  background-color: rgb(178, 20, 192, 0.2);
+  border: solid 1px rgb(178, 20, 192, 0.2);
+  border-radius: 10px;
+  width: 100%;
+  font-size: 24px;
+}
+
+ol {
+  max-width: 350px;
+  counter-reset: my-awesome-counter;
+  list-style: none;
+}
+ol li {
+  margin: 0 0 0.5rem 0;
+  counter-increment: my-awesome-counter;
+  position: relative;
+}
+ol li::before {
+  content: counter(my-awesome-counter);
+  color: purple;
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: absolute;
+  --size: 32px;
+  left: calc(-1 * var(--size) - 10px);
+  line-height: var(--size);
+  width: var(--size);
+  height: var(--size);
+  top: 0;
+  transform: rotate(-10deg);
+  background: rgb(64, 224, 208);
+  border-radius: 50%;
+  text-align: center;
+  box-shadow: 1px 1px 0 #999;
+}
