@@ -16,7 +16,7 @@ var viewScores = document.getElementById("view-scores");
 
 var startButton = document.getElementById("start");
 var submitButton = document.querySelector("#submit");
-var answerButtons = document.querySelectorAll("li > button");
+var answerBtnSpan = document.querySelectorAll("button > span");
 var backButton = document.getElementById("go-back");
 var clearButton = document.getElementById("clear-scores");
 
@@ -60,7 +60,7 @@ function countdown() {
 }
 
 function displayQuestions() {
-  questionsScreenEl.removeAttribute("class", "hide");
+  questionsScreenEl.classList.remove("class", "hide");
   var firstQuestion = listOfQuestions[0];
   firstQuestion();
 }
@@ -94,7 +94,7 @@ function youngestMember() {
   questionsEl.textContent = "Who is the youngest member?";
   var answers = ["Jin", "RM", "JK", "JM"];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -102,7 +102,7 @@ function oldestMember() {
   questionsEl.textContent = "Who is the oldest member?";
   var answers = ["V", "J-Hope", "Suga", "Jin"];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -110,7 +110,7 @@ function incorrectSong() {
   questionsEl.textContent = "Which song is not by BTS?";
   var answers = ["I NEED U", "Peter Pan", "Euphoria", "Danger"];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -118,7 +118,7 @@ function howManyMembers() {
   questionsEl.textContent = "How many members are there total?";
   var answers = ["7", "8", "12", "5"];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -126,7 +126,7 @@ function breedOfJKDog() {
   questionsEl.textContent = "What breed is JK's dog?";
   var answers = ["Shih Tzu", "Toy Poodle", "America Eskimo", "Doberman"];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -134,7 +134,7 @@ function formerCompanyName() {
   questionsEl.textContent = "What was the former name of BTS' company label?";
   var answers = ["JYP", "Big Hit Entertainment", "HYBE", "SM"];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -142,7 +142,7 @@ function debutYear() {
   questionsEl.textContent = "In what year did BTS debut?";
   var answers = ["2013", "2011", "2015", "2008"];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -150,7 +150,7 @@ function rapperWho() {
   questionsEl.textContent = "Who is a rapper out of the given choices?";
   var answers = ["Kim Taehyung", "Jung Hoseok", "Kim Seokjin", "Kim Namjoon"];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -164,7 +164,7 @@ function collabWho() {
     "All of the above",
   ];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -173,7 +173,7 @@ function billionViews() {
     "Which BTS music video reached 1 billion views first out of these choices?";
   var answers = ["DNA", "Fake Love", "Boy With Luv", "Mic Drop"];
   for (var i = 0; i < answers.length; i++) {
-    answerButtons[i].textContent = answers[i];
+    answerBtnSpan[i].textContent = answers[i];
   }
 }
 
@@ -196,7 +196,7 @@ function navigate(direction) {
 answerContainer.addEventListener("click", function (event) {
   var element = event.target;
 
-  if (element.matches("button")) {
+  if (element.matches("button") || element.matches("span")) {
     if (element.textContent === listOfCorrectAnswer[questionIndex]) {
       // increase score
       isCorrect.textContent = "Correct!";
@@ -223,7 +223,7 @@ answerContainer.addEventListener("click", function (event) {
 
 function displayDonePage() {
   questionsScreenEl.setAttribute("class", "hide");
-  endScreenEl.removeAttribute("class", "hide");
+  endScreenEl.classList.remove("class", "hide");
   finalScore.textContent = scoreCounter;
 }
 
@@ -248,7 +248,7 @@ function setScores(newScore) {
 function displayHighscores() {
   questionsScreenEl.setAttribute("class", "hide");
   endScreenEl.setAttribute("class", "hide");
-  highScoreScreenEl.removeAttribute("class", "hide");
+  highScoreScreenEl.classList.remove("class", "hide");
   let initials = initialsEl.value.trim();
   viewScores.textContent = initials + " - " + scoreCounter;
   const newScore = initials + " - " + scoreCounter;
