@@ -5,15 +5,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="./Assets/highscores-stlye.css">
     <title>BTS Quiz Highscores</title>
 </head>
 
 <body>
-    <h1>List of Highscores</h1>
-    <ol id="highscore-list">
+    <div class="bg-image" style="background-image: url('./Assets/Images/bts-wallpaper.png'); height: 100vh;">
+        <div class="container-fluid">
+            <section class="row d-flex justify-content-center">
+                <h1>List of Highscores</h1>
+            </section>
 
-    </ol>
+            <section class="row highscore-list d-flex justify-content-center">
+                <ol id="highscore-list"></ol>
+            </section>
+        </div>
+    </div>
     <script src="./Assets/highscores.js"></script>
 </body>
 
