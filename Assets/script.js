@@ -16,7 +16,7 @@ var viewScores = document.getElementById("view-scores");
 
 var startButton = document.getElementById("start");
 var submitButton = document.querySelector("#submit");
-var answerBtnSpan = document.querySelectorAll("button > span");
+var answerBtnSpan = document.querySelectorAll("li span");
 var backButton = document.getElementById("go-back");
 var clearButton = document.getElementById("clear-scores");
 
