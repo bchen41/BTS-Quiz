@@ -1,10 +1,15 @@
 header nav {
   display: flex;
   justify-content: space-between;
+  font-size: 20px;
 }
 
 .bg-image {
   background-size: cover;
+}
+
+li {
+  font-size: 24px;
 }
 
 button {
