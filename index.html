@@ -5,56 +5,70 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="./Assets/style.css">
     <title>BTS Quiz</title>
 </head>
 
 <body>
-    <header>
-        <nav>
-            <div id="view-highscore-screen"><a href="javascript:void(0)">View Highscores</a>
+    <div class="bg-image" style="background-image: url('https://wallpapercave.com/wp/wp5606214.png'); height: 100vh;">
+
+        <div class="container-fluid d-flex flex-column flex-wrap">
+            <div class="row">
+                <header class="col">
+                    <nav>
+                        <div id="view-highscore-screen"><a href="javascript:void(0)">View Highscores</a>
+                        </div>
+                        <div class="countdown">Time: <span id="time"></span></div>
+                    </nav>
+                </header>
             </div>
-            <div class="countdown">Time: <span id="time"></span></div>
-        </nav>
-    </header>
 
-    <section class="start" id="start-screen">
-        <h1>BTS Quiz Challenge</h1>
-        <p>Try to answer the following BTS-related questions within the time limit. Keep in mind that incorrect
-            answers will
-            penalize your time and score!
-        </p>
 
-        <button id="start">Start Quiz</button>
-    </section>
 
-    <section class="hide" id="questions-screen">
-        <h1 class="questions"></h1>
-        <ol id="answer-choices">
-            <li><button></button></li>
-            <li><button></button></li>
-            <li><button></button></li>
-            <li><button></button></li>
-        </ol>
-        <h2 id="correct-wrong"></h2>
-    </section>
+            <div class="row">
+                <section class="start col" id="start-screen">
+                    <h1>BTS Quiz Challenge</h1>
+                    <p>Try to answer the following BTS-related questions within the time limit. Keep in mind that
+                        incorrect
+                        answers will
+                        penalize your time and score!
+                    </p>
 
-    <section class="hide" id="end-screen">
-        <h2>All Done!</h2>
-        <p>Your final score is: <span id="final-scores"></span></p>
-        <p>
-            Enter your initials: <input type="text" id="initials" max="3">
-        </p>
-        <button id="submit">Submit</button>
-    </section>
+                    <button id="start">Start Quiz</button>
+                </section>
 
-    <section class="hide" id="highscore-screen">
-        <h2>Highscores</h2>
-        <p id="view-scores"></p>
-        <button id="go-back">Go Back</button>
-        <button id="clear-scores">Clear Highscores</button>
-    </section>
+                <section class="hide col" id="questions-screen">
+                    <h1 class="questions"></h1>
+                    <ol id="answer-choices">
+                        <li><button><span></span></button></li>
+                        <li><button><span></span></button></li>
+                        <li><button><span></span></button></li>
+                        <li><button><span></span></button></li>
+                    </ol>
+                    <h2><span id="correct-wrong"></span></h2>
+                </section>
 
+                <section class="hide col" id="end-screen">
+                    <h2>All Done!</h2>
+                    <p>Your final score is: <span id="final-scores"></span></p>
+                    <p>
+                        Enter your initials: <input type="text" id="initials" max="3">
+                    </p>
+                    <button id="submit">Submit</button>
+                </section>
+
+                <section class="hide col" id="highscore-screen">
+                    <h2>Highscores</h2>
+                    <p id="view-scores"></p>
+                    <button id="go-back">Go Back</button>
+                    <button id="clear-scores">Clear Highscores</button>
+                </section>
+            </div>
+
+        </div>
+    </div>
 
     <script src="./Assets/script.js"></script>
 </body>
