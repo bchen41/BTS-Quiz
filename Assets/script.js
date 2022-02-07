@@ -148,7 +148,7 @@ function debutYear() {
 
 function rapperWho() {
   questionsEl.textContent = "Who is a rapper out of the given choices?";
-  var answers = ["Kim Taehyung", "Jung Hoseok", "Kim Seokjin", "Kim Namjoon"];
+  var answers = ["Kim Taehyung", "Jeon Jungkook", "Kim Seokjin", "Kim Namjoon"];
   for (var i = 0; i < answers.length; i++) {
     answerBtnSpan[i].textContent = answers[i];
   }
